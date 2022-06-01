@@ -1,0 +1,44 @@
+[
+    {
+        "text": "Gestionar",
+        "icon": "cached",
+        "children":[
+            {
+                "text": "Empleado",
+                "icon": "people",
+                "routerLink": "gestionar/empleado"
+            },
+            {
+                "text": "Tipo Permiso",
+                "icon": "list_alt",
+                "routerLink": "gestionar/tipo-permiso"
+            }
+        ]
+    },
+    {
+        "text": "Permisos",
+        "icon": "note_alt",
+        "children":[
+            {
+                "text": "Solicitar Permiso",
+                "icon": "event",
+                "routerLink": "/empleado"
+            },
+            {
+                "text": "Ver Permiso",
+                "icon": "visibility",
+                "routerLink": "/ver-permiso"
+            }
+        ]
+    },
+    {
+        "text": "Reportes",
+        "icon": "assignment",
+        "children": [{
+                "text": "Listado de Permisos",
+                "icon": "edit_note",
+                "routerLink": "/product/category"
+            }
+        ]
+    }
+]

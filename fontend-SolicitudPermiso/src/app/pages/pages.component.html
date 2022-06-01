@@ -1,0 +1,16 @@
+<ng-container >
+    <mat-toolbar color="primary"> 
+      <button mat-mini-fab color="primary" (click)="snav.toggle()" style="cursor: pointer;margin-right: 10px;"><mat-icon>menu</mat-icon></button>
+      <span>Bienvenidos al sistema de solicitud de permisos</span>
+    </mat-toolbar>
+    <mat-sidenav-container>
+      <mat-sidenav #snav mode="side" opened color="primary">
+        <app-menu></app-menu>
+      </mat-sidenav>
+      <mat-sidenav-content>
+          <div class="content mat-elevation-z8">
+              <router-outlet></router-outlet>
+          </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </ng-container>
