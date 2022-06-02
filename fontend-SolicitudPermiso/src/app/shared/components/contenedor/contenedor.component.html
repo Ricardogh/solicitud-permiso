@@ -1,0 +1,41 @@
+<ng-container [ngSwitch]="banderaEstado">
+  <ng-template [ngSwitchCase]="EstadoPagina.Cargando">
+    <!-- <app-loading></app-loading> -->
+  </ng-template>
+  <ng-template [ngSwitchCase]="EstadoPagina.Ok">
+      <div class="row justify-content-center">
+          <div [class]="col">
+              <div class="animated fadeIn">
+              <div *ngIf=card>
+                <div class="card border-0 box-shadow rounded-0 mb-0">
+                  <div class="card-header">
+                    <h4 class="mb-0"><i [class]="icon"></i> {{titulo}} </h4>
+                  </div>
+      
+                  <div class="card-body pt-2">
+                    <ng-container *ngTemplateOutlet="tempOutlet" >
+                      
+                    </ng-container>
+                  </div>
+                </div>
+            
+               </div>
+               <div *ngIf=!card>
+                  <ng-container *ngTemplateOutlet="tempOutlet" >
+
+                  </ng-container>
+               </div>
+               <ng-template #tempOutlet>
+                   <ng-content></ng-content>
+               </ng-template>
+
+              </div>
+          </div>
+        </div>
+    
+  </ng-template>
+  <app-loading-ngx [loading]="loadingPantalla"></app-loading-ngx>
+  <ng-template [ngSwitchCase]="EstadoPagina.Error">
+    <app-error-page (recargarChange)='recargar()'></app-error-page>
+  </ng-template>
+</ng-container>

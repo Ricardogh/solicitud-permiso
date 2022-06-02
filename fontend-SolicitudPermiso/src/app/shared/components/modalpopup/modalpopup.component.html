@@ -1,0 +1,34 @@
+<!-- <ng-container>
+    <ng-template> -->
+        <div class="modal-dialog {{modalSize}}">
+            <div class="modal-content card">
+                <div class="modal-header {{headerColor}}">
+                    <h4 id="dialog-sizes-name" class="modal-title pull-left text-white"><i [class]="icon"></i> {{titulo}}</h4>
+                    <button
+                    type="button" class="close pull-right text-white" (click)="lgModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body ml-0">
+                    <ng-container>
+                        <ng-content></ng-content>
+                    </ng-container>
+                </div>
+                <div class="modal-footer modal-bg-info">
+                    <button type="button" (click)="Guardar()" *ngIf="guardarVisible"
+                        class="btn btn-outline-success btn-sm round mb-3">
+                        <h5>
+                        <i class="fa fa-save fa-lg"></i> Guardar
+                        </h5>
+                    </button>
+                    <button type="button" (click)="Cancelar()"
+                        class="btn btn-outline-danger btn-sm round mb-3">
+                        <h5>
+                        <i class="fa fa-remove fa-lg"></i> Cancelar
+                        </h5>
+                    </button>
+                </div>
+            </div>
+        </div>
+    <!-- </ng-template>
+</ng-container> -->
