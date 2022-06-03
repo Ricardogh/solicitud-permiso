@@ -12,9 +12,13 @@ import { ModalpopupComponent } from './components/modalpopup/modalpopup.componen
 import { LoadingScreenInterceptor } from "./interceptors";
 import { LoadingScreenService } from "./loading-ngx/service/loading-screen.service";
 import { ErrorPageComponent } from "./components/error-page/error-page.component";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from "@angular/material/form-field";
 
 @NgModule({
     imports: [
+        FormsModule,
+        ReactiveFormsModule,
         HttpClientModule,
         MaterialModule,
         HttpClientJsonpModule,
@@ -24,6 +28,7 @@ import { ErrorPageComponent } from "./components/error-page/error-page.component
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: LoadingScreenInterceptor, multi: true },
+        { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS , useValue: {float: 'always'} },
         MenuService,
         LoadingScreenService
     ],    
@@ -35,6 +40,9 @@ import { ErrorPageComponent } from "./components/error-page/error-page.component
         ErrorPageComponent
     ],
     exports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MaterialModule,
         ModalpopupComponent,
         LoadingNgxComponent,
         ContenedorComponent,
