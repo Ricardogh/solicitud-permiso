@@ -1,3 +1,4 @@
+import { EstadoPagina } from './../../../shared/enum/estado-pagina';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./empleado.component.scss']
 })
 export class EmpleadoComponent implements OnInit {
-
+  banderaEstado = true;
   constructor() { }
 
   ngOnInit(): void {
