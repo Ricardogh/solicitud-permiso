@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import swal from 'sweetalert2';
+import swal, { SweetAlertOptions } from 'sweetalert2';
 
 import { RespuestaDB } from '../respuestadb.model';
 import { TipoNotificacion } from '../enum';
@@ -12,8 +12,6 @@ export const colores = {
 
 @Injectable()
 export class MetodosGlobales {
-
-
   // tslint:disable-next-line: max-line-length
   validaError(resultado: RespuestaDB, banderaMensajeOK: boolean = true, banderaMensajeERROR: boolean = true, texto: string = ''): boolean {
     if (resultado.status === 'error' || resultado.status === 'empty') {
@@ -111,7 +109,7 @@ export class MetodosGlobales {
       title: `<div class="d-flex align-items-center" style="color:white;height:70px;">
                 <strong>${mensaje}</strong>
               </div>`,
-               
+
       toast: true,
       position: 'bottom-end',
       showConfirmButton: false,
@@ -189,6 +187,4 @@ export class MetodosGlobales {
     }
     return formData;
   }
-
-
 }
