@@ -1,0 +1,48 @@
+<app-contenedor color="primary"
+  [titulo]="'Solicitud de permiso'"
+  [banderaEstado]="banderaEstado"
+  [col]="'col-md-7'"
+  [loadingPantalla] = "loadingPantalla"
+  [icon]="'fa fa-save'"
+>
+<form [formGroup]="permisoForma" *ngIf="permisoForma">
+  <div class="row">
+    <div class="form-row col-sm-12">
+      <mat-form-field appearance="legacy" class="form-group col-sm-7 p-3">
+          <mat-label>Empleado</mat-label>
+          <mtx-select [items]="data" required formControlName="idEmpleado" bindLabel="name" bindValue="code">
+          </mtx-select>
+      </mat-form-field>
+      <mat-form-field appearance="legacy" class="form-group col-sm-5">
+          <mat-label>Tipo Permiso</mat-label>
+          <mtx-select [items]="data" required formControlName="idTipoPermiso" bindLabel="name" bindValue="code">
+        </mtx-select>
+      </mat-form-field>
+    </div>
+    <div class="form-row col-sm-12">
+      <mat-form-field appearance="legacy" class="form-group col-sm-6 p-3">
+          <mat-label>Fecha de inicio del permiso</mat-label>
+          <input [mtxDatetimepicker]="fechaInicial" (dateChange)="permisoForma.get('fechaInicial')?.setValue($event.value.toDate())" formControlName="fechaInicial" matInput readonly required (focus)="fechaInicial.open()">
+          <mat-icon matSuffix style="cursor: pointer;" matTooltip="Fecha de inicio del permiso">calendar_month_outlined</mat-icon>
+          <mtx-datetimepicker #fechaInicial type="datetime" mode="auto" startView="month"></mtx-datetimepicker>
+      </mat-form-field>
+      <mat-form-field appearance="legacy" class="form-group col-sm-6">
+          <mat-label>Fecha fin del permiso</mat-label>
+          <input [mtxDatetimepicker]="fechaFinal" (dateChange)="permisoForma.get('fechaFinal')?.setValue($event.value.toDate())" formControlName="fechaFinal" matInput readonly required (focus)="fechaFinal.open()">
+          <mat-icon matSuffix style="cursor: pointer;" matTooltip="Fecha fin del permiso">calendar_month_outlined</mat-icon>
+          <mtx-datetimepicker #fechaFinal type="datetime" mode="auto" startView="month"></mtx-datetimepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-sm-12">
+        <mat-form-field appearance="legacy" class="form-group col-sm-12 p-3">
+            <mat-label>Descripción</mat-label>
+            <textarea matInput formControlName="descripcion" required></textarea>
+        </mat-form-field>
+    </div>
+  </div>
+  <div class="text-center pt-3">
+    <button mat-raised-button color="primary" (click)="registrarPermiso()">Guardar</button>
+  </div>
+</form>
+
+</app-contenedor>

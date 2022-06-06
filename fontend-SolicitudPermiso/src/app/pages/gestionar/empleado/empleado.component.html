@@ -3,35 +3,35 @@
   [banderaEstado]="banderaEstado"
   [col]="'col-md-5'"
   [loadingPantalla] = "loadingPantalla"
+  [icon]="'fa fa-save'"
 >
 <form [formGroup]="empleadoForma" *ngIf="empleadoForma">
   <div class="row">
     <div class="form-row col-sm-12">
       <mat-form-field appearance="legacy" class="form-group col-sm-6 p-3">
           <mat-label>Nombre</mat-label>
-          <input matInput formControlName="nombre">
+          <input matInput formControlName="nombreEmpleado" class="text-uppercase">
       </mat-form-field>
       <mat-form-field appearance="legacy" class="form-group col-sm-6">
           <mat-label>Apellidos</mat-label>
-          <input matInput formControlName="apellidos">
+          <input matInput formControlName="apellidosEmpleado" class="text-uppercase">
       </mat-form-field>
     </div>
     <div class="form-row col-sm-12">
       <mat-form-field appearance="legacy" class="form-group col-sm-6 p-3">
           <mat-label>Fecha de Nacimiento</mat-label>
-          <input matInput [matDatepicker]="pickerNacimiento" (focus)="pickerNacimiento.open()" readonly="" formControlName="fechaNacimiento">
-          <mat-datepicker-toggle matSuffix [for]="pickerNacimiento"></mat-datepicker-toggle>
+          <input matInput [matDatepicker]="pickerNacimiento" (dateChange)="empleadoForma.get('fechaNacimiento')?.setValue($event.value.toDate())" formControlName="fechaNacimiento" (focus)="pickerNacimiento.open()" readonly>
+          <mat-icon matSuffix style="cursor: pointer;" matTooltip="Fecha de Nacimiento">calendar_month_outlined</mat-icon>
           <mat-datepicker #pickerNacimiento></mat-datepicker>
       </mat-form-field>
       <mat-form-field appearance="legacy" class="form-group col-sm-6">
           <mat-label>Fecha de Ingreso</mat-label>
-          <input matInput [matDatepicker]="pickerIngreso" (focus)="pickerIngreso.open()" readonly="" formControlName="fechaIngreso">
-          <mat-datepicker-toggle matSuffix [for]="pickerIngreso"></mat-datepicker-toggle>
+          <input matInput [matDatepicker]="pickerIngreso" (dateChange)="empleadoForma.get('fechaIngreso')?.setValue($event.value.toDate())" formControlName="fechaIngreso" (focus)="pickerIngreso.open()" readonly>
+          <mat-icon matSuffix style="cursor: pointer;" matTooltip="Fecha de Ingreso">calendar_month_outlined</mat-icon>
           <mat-datepicker #pickerIngreso></mat-datepicker>
       </mat-form-field>
     </div>
   </div>
-  <mat-divider></mat-divider>
   <div class="text-center pt-3">
     <button mat-raised-button color="primary" (click)="registrarEmpleado()">Guardar</button>
   </div>

@@ -1,0 +1,108 @@
+<app-contenedor 
+    [icon]="'fa fa-search'" 
+    [col]="'col-sm-12'"
+    [titulo]="'Buscar Permisos'" 
+    [banderaEstado]="banderaEstado" 
+    (recargarChange)="reload()"
+>
+    <form class="mt-4">
+        <div class="form-row col-sm-12">
+            <mat-form-field appearance="legacy" class="form-group col-md-2 p-3">
+                <mat-label>Mostrar</mat-label>
+                <mat-select [(value)]="paginado.cantidadMostrar" name="cantidadMostrar" (selectionChange)="buscarPaginado({ offset: 0 })">
+                    <mat-option *ngFor="let numero of cantidadMostrar" [value]="numero">{{numero}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            
+          <mat-form-field appearance="legacy" class="form-group col-md-4">
+            <mat-label>filtrar por</mat-label>
+            <mat-select [(ngModel)]="busqueda.parametro" name="cantidadMostrar">
+                <mat-option value="e.nombreEmpleado">Nombre del Empleado</mat-option>
+                <mat-option value="tp.descripcion">Tipo Permiso</mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+            <mat-form-field appearance="legacy" class="form-group col-sm-5 p-3">
+                <mat-label>Buscador</mat-label>
+                <input matInput class="text-uppercase" [(ngModel)]="busqueda.valor" name="valor">
+            </mat-form-field>
+          
+            <button mat-raised-button color="primary"
+                class="form-group col-md-1"
+                (click)="buscarPaginado({ offset: 0 })" 
+            >Buscar</button>
+        </div>
+    </form>
+    <div
+        *ngIf="array.length == 0 && !banderaCargando; else show"
+        class="card mb-3"
+      >
+        <div class="card-body text-center p-2">
+            <i class="fa fa-inbox fa-2x"></i>
+          <h5 class="card-title"> No se encontró ningún resultado</h5>
+        </div>
+      </div>
+
+      <ng-template #show>
+        <ngx-datatable
+          #table
+          class="material"
+          [rows]="array"
+          [headerHeight]="40"
+          [columnMode]="'force'" 
+          [footerHeight]="50"
+          [rowHeight]="'auto'"
+          [loadingIndicator]="this.banderaCargando"
+          [externalPaging]="true"
+          [count]="paginado.totalElementos"
+          [limit]="paginado.cantidadMostrar"
+          [offset]="paginado.numeroPaginaActual"
+          (page)="buscarPaginado($event)"
+          [scrollbarH]="true"
+        >
+          <ngx-datatable-column name="" prop="id" [width]="55">
+            <ng-template ngx-datatable-cell-template let-value="value">
+              <div class="text-center">
+                <button
+                  class="btn btn-success"
+                  matTooltip="Editar registro"
+                >
+                  <i class="fa fa-pencil"></i>
+                </button>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="NOMBRE" prop="nombreEmpleado"  [width]="100">
+            <ng-template ngx-datatable-cell-template let-value="value">
+              {{ value }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="APELLIDOS" prop="apellidosEmpleado"  [width]="200">
+            <ng-template ngx-datatable-cell-template let-value="value">
+              {{ value }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="TIPO DE PERMISO" prop="tipoPermiso" [width]="100">
+            <ng-template ngx-datatable-cell-template let-value="value">
+              {{ value }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="FECHA INICIO" prop="fechaHoraInicioPermiso" [width]="100">
+            <ng-template ngx-datatable-cell-template let-value="value">
+              {{ value | date: "dd/MM/yyyy HH:mm" }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="FECHA FIN" prop="fechaHoraFinPermiso" [width]="100">
+            <ng-template ngx-datatable-cell-template let-value="value">
+              {{ value | date: "dd/MM/yyyy HH:mm" }}
+            </ng-template>
+          </ngx-datatable-column>
+
+        </ngx-datatable>
+      </ng-template>
+</app-contenedor>

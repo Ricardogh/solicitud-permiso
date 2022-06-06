@@ -1,19 +1,22 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
 import { NgxLoadingModule } from "ngx-loading";
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from "@angular/material/form-field";
 
-import { MaterialModule } from "../material.module";
+import { MaterialModule } from "@app/material.module";
+import { MaterialExtensionsModule } from "@app/material-extensions.module";
+
 import { MenuService } from "./components/menu/services/menu.service";
-import { LoadingNgxComponent } from './loading-ngx/loading-ngx.component';
 import { ContenedorComponent } from './components/contenedor/contenedor.component';
 import { ModalpopupComponent } from './components/modalpopup/modalpopup.component';
-import { LoadingScreenInterceptor } from "./interceptors";
-import { LoadingScreenService } from "./loading-ngx/service/loading-screen.service";
 import { ErrorPageComponent } from "./components/error-page/error-page.component";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from "@angular/material/form-field";
+import { LoadingScreenService } from "./components/loading-ngx/service/loading-screen.service";
+import { MetodosGlobales } from "./metodos-globales";
+import { LoadingNgxComponent } from "./components/loading-ngx/loading-ngx.component";
+import { HttpErrorInterceptor, LoadingScreenInterceptor } from "./interceptors";
 
 @NgModule({
     imports: [
@@ -21,16 +24,19 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from "@angular/material/form-field";
         ReactiveFormsModule,
         HttpClientModule,
         MaterialModule,
+        MaterialExtensionsModule,
         HttpClientJsonpModule,
         CommonModule,
-        RouterModule,
-        NgxLoadingModule.forRoot({})
+        RouterModule,        
+        NgxLoadingModule.forRoot({}),
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: LoadingScreenInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
         { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS , useValue: {float: 'always'} },
         MenuService,
-        LoadingScreenService
+        LoadingScreenService,
+        MetodosGlobales
     ],    
     declarations: [
         ModalpopupComponent,        
@@ -43,11 +49,12 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from "@angular/material/form-field";
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
+        MaterialExtensionsModule,        
         ModalpopupComponent,
         LoadingNgxComponent,
         ContenedorComponent,
         ModalpopupComponent,
-        ErrorPageComponent
+        ErrorPageComponent,
     ]
 })
 

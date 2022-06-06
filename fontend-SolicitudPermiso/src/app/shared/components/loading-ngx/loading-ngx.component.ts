@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef, Input, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, Input, ViewEncapsulation, Type } from '@angular/core';
 import { NgxLoadingComponent, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -36,6 +36,7 @@ export class LoadingNgxComponent implements OnInit {
             tertiaryColour: this.primaryColour, backdropBorderRadius: '3px',
             fullScreenBackdrop: this.fullScreenBackdrop
             };
+    static ContenedorComponent: any[] | Type<any>;
 
   constructor(private sanitizer: DomSanitizer) { }
 
