@@ -36,6 +36,29 @@ namespace backend_SolicitudPermiso.Controllers
             }
         }
 
+        [HttpDelete]
+        [Route("eliminar/{id}")]
+        public ActionResult<RespuestaDB> eliminar(int id)
+        {
+            tipoPermiso _tipoPermiso = new tipoPermiso();
+            RespuestaDB respuestaBD = new RespuestaDB();
+            try
+            {
+                using (TransactionScope transaction = new TransactionScope())
+                {
+                    respuestaBD = _tipoPermiso.eliminar(id);
+                    transaction.Complete();
+                }
+                return new OkObjectResult(respuestaBD);
+            }
+            catch (Exception ex)
+            {
+                respuestaBD.status = "error";
+                respuestaBD.response = ex.Message;
+                return new OkObjectResult(respuestaBD);
+            }
+        }
+
         [HttpGet]
         [Route("Buscar_TipoPermiso")]
         public ActionResult<IEnumerable<TipoPermisoModel>> Buscar_TipoPermiso(string valor, string parametro, int numeroPagina, int cantidadMostrar)

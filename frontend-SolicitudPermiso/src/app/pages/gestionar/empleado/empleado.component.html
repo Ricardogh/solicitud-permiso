@@ -3,6 +3,7 @@
     [col]="'col-sm-10'"
     [titulo]="'Buscar Empleado'" 
     [banderaEstado]="banderaEstado"
+    [loadingPantalla]="loadingPantalla"
     (recargarChange)="reload()"
 >
     <div class="formGroup col-md-12">
@@ -80,6 +81,7 @@
                 <button
                   class="btn btn-danger"
                   matTooltip="Eliminar registro"
+                  (click)="eliminarRegistro(value)"
                 >
                   <i class="fa fa-trash"></i>
                 </button>

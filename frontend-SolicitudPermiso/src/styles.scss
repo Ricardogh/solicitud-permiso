@@ -15,6 +15,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     margin-right: 5px;
   }
 
+  .text-right {
+    text-align: right !important;
+  }
+
   .modal {
   z-index: 9998 !important;
   padding-top: 0 !important;

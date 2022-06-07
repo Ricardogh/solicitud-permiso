@@ -12,6 +12,7 @@ import { PermisosService } from '../service/permiso.service';
 import { PermisosModel } from '../model/permisos.model';
 import { Paginado } from '@app/core/model/paginado.model';
 import { EstadoPagina } from '@app/shared/enum';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-solicitar-permiso',
@@ -28,18 +29,21 @@ export class SolicitarPermisoComponent implements OnInit, OnDestroy {
   dataTipoPermiso: Array<TipoPermisoModel> = [];
   
   diasMaximoPermiso: number = 30;
+  idPermiso: number = 0;
 
   private unsubscribe$: Subject<void> = new Subject();
 
   today!: moment.Moment;
-  idEmpleado = null;
-  idTipoPermiso = null;
+  idEmpleado: number | null = null;
+  idTipoPermiso: number | null = null;
   constructor(
     private fb: FormBuilder,
     private metodosGlobales: MetodosGlobales,
     private empleadoService: EmpleadoService,
     private tipoPermisoService: TipoPermisoService,
-    private permisosService: PermisosService
+    private permisosService: PermisosService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     of(forkJoin([
       this.empleadoService.buscarPaginado('', 'nombreEmpleado', 0, 100),
@@ -79,6 +83,24 @@ export class SolicitarPermisoComponent implements OnInit, OnDestroy {
       fechaHoraFinPermiso: [null, Validators.compose([Validators.required])],
       descripcion: [null, Validators.compose([Validators.required])],
     });
+    this.route.params.pipe(takeUntil(this.unsubscribe$)).subscribe(param => {
+      if (param['id']){
+        this.idPermiso = Number(param['id']);
+        this.loadingPantalla = true;
+        this.permisosService.traerPermisos_X_id(this.idPermiso)
+        .pipe(takeUntil(this.unsubscribe$)).subscribe({
+          next: resp => {
+            this.permisoForma.patchValue(resp.response as PermisosModel);
+            this.permisoForma.get('fechaHoraInicioPermiso')?.setValue(moment((resp.response as PermisosModel).fechaHoraInicioPermiso).toDate());
+            this.permisoForma.get('fechaHoraFinPermiso')?.setValue(moment((resp.response as PermisosModel).fechaHoraFinPermiso).toDate());
+            this.idEmpleado = (resp.response as PermisosModel).idEmpleado;
+            this.idTipoPermiso = (resp.response as PermisosModel).idTipoPermiso;
+            this.loadingPantalla = false;
+          },
+          error: error => this.loadingPantalla = false
+        });
+      }
+    });
   }
   
   registrarPermiso(): void {
@@ -94,7 +116,7 @@ export class SolicitarPermisoComponent implements OnInit, OnDestroy {
     }).then(confirm => {
       if (confirm.value) {
         this.loadingPantalla = true;
-        console.log(this.permisoForma.getRawValue());
+        // console.log(this.permisoForma.getRawValue());
         this.permisosService.guardar(this.permisoForma.getRawValue() as PermisosModel)
         .pipe(takeUntil(this.unsubscribe$)).subscribe({
           next: resp => {
@@ -103,9 +125,13 @@ export class SolicitarPermisoComponent implements OnInit, OnDestroy {
               return;
             }
             this.metodosGlobales.transaccionOK(() => {
-              this.idEmpleado = null;
-              this.idTipoPermiso = null;
-              this.inicializarForma()
+              if (this.idPermiso) {
+                this.router.navigate(['permisos', 'ver-permisos']);
+              } else {
+                this.idEmpleado = null;
+                this.idTipoPermiso = null;
+                this.inicializarForma()
+              }
             });
           },
           error: error => this.loadingPantalla = false
@@ -138,8 +164,15 @@ export class SolicitarPermisoComponent implements OnInit, OnDestroy {
     return true;
   }
 
+  cancelarPermiso(): void {
+    if (this.idPermiso) {
+      this.router.navigate(['permisos', 'ver-permisos']);
+    } else {
+      this.inicializarForma();
+    }
+  }
+
   dateChangeHandler(date: moment.Moment, control: string): void {
-    console.log(date.toDate());
     this.permisoForma.get(control)?.setValue(date.toDate());
   }
 

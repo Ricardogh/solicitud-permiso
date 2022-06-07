@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { EmpleadoService } from '@app/pages/gestionar/empleado/service/empleado.service';
 import { MetodosGlobales } from '@app/shared/metodos-globales';
-import { Paginado } from '@core/model/paginado.model';
-import { EstadoPagina } from '@shared/enum';
 import { Subject, takeUntil } from 'rxjs';
+import swal from 'sweetalert2';
+
+import { Paginado } from '@core/model/paginado.model';
 import { ListadoPermisosModel } from '../model/permisos.model';
 import { PermisosService } from '../service/permiso.service';
+import { EstadoPagina } from '@shared/enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ver-permiso',
@@ -29,7 +31,8 @@ export class VerPermisoComponent implements OnInit, OnDestroy {
 
   constructor(
     private permisosService: PermisosService,
-    private metodosGlobales: MetodosGlobales
+    private metodosGlobales: MetodosGlobales,
+    private router: Router
   ) {
     this.paginado.cantidadMostrar = 5;
     this.cargarData();
@@ -84,6 +87,37 @@ export class VerPermisoComponent implements OnInit, OnDestroy {
   numeroRegistrosMostrados(valor: any) {
     this.paginado.cantidadMostrar = valor.srcElement.value;
     this.buscarPaginado({ offset: this.paginado.numeroPaginaActual });
+  }
+
+  modificarRegistro(id: number): void {
+    this.router.navigate(['permisos', 'solicitar-permiso', id, 'edit']);
+  }
+
+  eliminarRegistro(id: number): void {
+    swal.fire({
+      title: '¿ Eliminar registro ?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+    }).then(confirm => {
+      if (confirm.value) {
+        this.loadingPantalla = true;
+        this.permisosService.eliminar(id)
+        .pipe(takeUntil(this.unsubscribe$)).subscribe({
+          next: resp => {
+            this.loadingPantalla = false;
+            if (!this.metodosGlobales.validaError(resp, false)){
+              return;
+            }
+            this.metodosGlobales.transaccionOK(()=> {
+              this.buscarPaginado({offset: this.paginado.numeroPaginaActual})
+            });
+          },
+          error: error => this.loadingPantalla = false
+        })
+      }
+    });
   }
 
 }

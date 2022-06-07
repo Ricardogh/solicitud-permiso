@@ -14,9 +14,14 @@ const routes: Routes = [
         component: SolicitarPermisoComponent
       },
       {
+        path: 'solicitar-permiso/:id/edit',
+        component: SolicitarPermisoComponent
+      },
+      {
         path: 'ver-permisos',
         component: VerPermisoComponent
       }
+      
     ]
   }
 ];

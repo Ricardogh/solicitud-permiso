@@ -64,10 +64,18 @@
             <ng-template ngx-datatable-cell-template let-value="value">
               <div class="text-center">
                 <button
-                  class="btn btn-success"
+                  class="btn btn-success mr-2"
                   matTooltip="Editar registro"
+                  (click)="modificarRegistro(value)"
                 >
                   <i class="fa fa-pencil"></i>
+                </button>
+                <button
+                  class="btn btn-danger"
+                  matTooltip="Eliminar registro"
+                  (click)="eliminarRegistro(value)"
+                >
+                  <i class="fa fa-trash"></i>
                 </button>
               </div>
             </ng-template>

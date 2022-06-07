@@ -158,4 +158,31 @@ export class TipoPermisoComponent implements OnInit {
     });
   }
 
+  eliminarRegistro(id: number): void {
+    swal.fire({
+      title: '¿ Eliminar registro ?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+    }).then(confirm => {
+      if (confirm.value) {
+        this.loadingPantalla = true;
+        this.tipoPermisoService.eliminar(id)
+        .pipe(takeUntil(this.unsubscribe$)).subscribe({
+          next: resp => {
+            this.loadingPantalla = false;
+            if (!this.metodosGlobales.validaError(resp, false)){
+              return;
+            }
+            this.metodosGlobales.transaccionOK(()=> {
+              this.buscarPaginado({offset: this.paginado.numeroPaginaActual})
+            });
+          },
+          error: error => this.loadingPantalla = false
+        })
+      }
+    });
+  }
+
 }

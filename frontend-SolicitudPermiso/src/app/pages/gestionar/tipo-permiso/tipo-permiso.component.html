@@ -3,6 +3,7 @@
     [col]="'col-sm-8'"
     [titulo]="'Buscar Tipo Permiso'" 
     [banderaEstado]="banderaEstado"
+    [loadingPantalla]="loadingPantalla"
     (recargarChange)="reload()"
 >
     <div class="formGroup col-md-12">
@@ -74,12 +75,13 @@
                   class="btn btn-success mr-2"
                   matTooltip="Editar registro"
                   (click)="modificarRegistro(value, lgModalTipoPermiso)"
-                >
+                  >
                   <i class="fa fa-pencil"></i>
                 </button>
                 <button
                   class="btn btn-danger"
                   matTooltip="Eliminar registro"
+                  (click)="eliminarRegistro(value)"
                 >
                   <i class="fa fa-trash"></i>
                 </button>
@@ -96,46 +98,6 @@
         </ngx-datatable>
       </ng-template>
 </app-contenedor>
-<!-- <app-contenedor color="primary"
-  [titulo]="'Registro de empleados'"
-  [banderaEstado]="banderaEstado"
-  [col]="'col-md-5'"
-  [loadingPantalla] = "loadingPantalla"
-  [icon]="'fa fa-save'"
->
-<form [formGroup]="empleadoForma" *ngIf="empleadoForma">
-  <div class="row">
-    <div class="form-row col-sm-12">
-      <mat-form-field appearance="legacy" class="form-group col-sm-6 p-3">
-          <mat-label>Nombre</mat-label>
-          <input matInput formControlName="nombreEmpleado" class="text-uppercase">
-      </mat-form-field>
-      <mat-form-field appearance="legacy" class="form-group col-sm-6">
-          <mat-label>Apellidos</mat-label>
-          <input matInput formControlName="apellidosEmpleado" class="text-uppercase">
-      </mat-form-field>
-    </div>
-    <div class="form-row col-sm-12">
-      <mat-form-field appearance="legacy" class="form-group col-sm-6 p-3">
-          <mat-label>Fecha de Nacimiento</mat-label>
-          <input matInput [matDatepicker]="pickerNacimiento" (dateChange)="empleadoForma.get('fechaNacimiento')?.setValue($event.value.toDate())" formControlName="fechaNacimiento" (focus)="pickerNacimiento.open()" readonly>
-          <mat-icon matSuffix style="cursor: pointer;" matTooltip="Fecha de Nacimiento">calendar_month_outlined</mat-icon>
-          <mat-datepicker #pickerNacimiento></mat-datepicker>
-      </mat-form-field>
-      <mat-form-field appearance="legacy" class="form-group col-sm-6">
-          <mat-label>Fecha de Ingreso</mat-label>
-          <input matInput [matDatepicker]="pickerIngreso" (dateChange)="empleadoForma.get('fechaIngreso')?.setValue($event.value.toDate())" formControlName="fechaIngreso" (focus)="pickerIngreso.open()" readonly>
-          <mat-icon matSuffix style="cursor: pointer;" matTooltip="Fecha de Ingreso">calendar_month_outlined</mat-icon>
-          <mat-datepicker #pickerIngreso></mat-datepicker>
-      </mat-form-field>
-    </div>
-  </div>
-  <div class="text-center pt-3">
-    <button mat-raised-button color="primary" (click)="registrarEmpleado()">Guardar</button>
-  </div>
-</form>
-
-</app-contenedor> -->
 
 <app-modalpopup
   bsModal
@@ -161,20 +123,6 @@
       </mat-form-field>
     </div>
   </div>
-  <!-- <div class="text-center pt-3">
-    <button mat-raised-button color="primary" (click)="registrarTipoPermiso()">Guardar</button>
-  </div> -->
+  
 </form>
 </app-modalpopup>
-
-
-<!-- <app-contenedor color="primary"
-  [titulo]="'Registrar tipo de permiso'"
-  [banderaEstado]="banderaEstado"
-  [col]="'col-md-4'"
-  [loadingPantalla] = "loadingPantalla"
-  [icon]="'fa fa-save'"
->
-
-
-</app-contenedor> -->

@@ -18,7 +18,7 @@ export class EmpleadoService {
   }
 
   eliminar(id: number): Observable<any> {
-    return this.apiService.delete(`${this.urlPath}/eliminar?id=${id}` )
+    return this.apiService.delete(`${this.urlPath}/eliminar/${id}` )
       .pipe(map((data: RespuestaDB) => data));
   }
 
