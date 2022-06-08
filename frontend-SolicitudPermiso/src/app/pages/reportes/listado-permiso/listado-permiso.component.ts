@@ -91,7 +91,7 @@ export class ListadoPermisoComponent implements OnInit, OnDestroy {
   }
 
   seletedChange(id: number): void {
-    this.idEmpleado = id;
+    this.idEmpleado = id ? id : 0;
   }
 
 }
