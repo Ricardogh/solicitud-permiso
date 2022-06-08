@@ -1,7 +1,7 @@
 export interface EmpleadoModel {
     id: number;
-    nombreEmpleado: number;
-    apellidosEmpleado: number;
+    nombreEmpleado: string;
+    apellidosEmpleado: string;
     fechaNacimiento: string;
     fechaIngreso: string;
 }

@@ -178,8 +178,10 @@ export class SolicitarPermisoComponent implements OnInit, OnDestroy {
     this.permisoForma.get(control)?.setValue(date.toDate());
   }
 
-  seletedChange(id: number, control: string): void {
-    this.permisoForma.get(control)?.setValue(id);
+  seletedChange(obj: EmpleadoModel | TipoPermisoModel, control: string): void {
+    if (obj){
+      this.permisoForma.get(control)?.setValue(obj.id);
+    }
   }
 
 }
