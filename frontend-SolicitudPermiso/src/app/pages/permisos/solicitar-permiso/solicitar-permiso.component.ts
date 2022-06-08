@@ -1,18 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { forkJoin, of, Subject, takeUntil } from 'rxjs';
 import swal from 'sweetalert2';
 import * as moment from 'moment';
-import { MetodosGlobales } from '@shared/metodos-globales';
-import { EmpleadoModel } from '@app/pages/gestionar/empleado/model/empleado.model';
-import { TipoPermisoModel } from '@app/pages/gestionar/tipo-permiso/model/tipoPermiso.model';
-import { delay, forkJoin, of, Subject, takeUntil } from 'rxjs';
+
 import { TipoPermisoService } from '@app/pages/gestionar/tipo-permiso/service/tipoPermiso.service';
 import { EmpleadoService } from '@app/pages/gestionar/empleado/service/empleado.service';
 import { PermisosService } from '../service/permiso.service';
+
 import { PermisosModel } from '../model/permisos.model';
 import { Paginado } from '@app/core/model/paginado.model';
+import { EmpleadoModel } from '@app/pages/gestionar/empleado/model/empleado.model';
+import { TipoPermisoModel } from '@app/pages/gestionar/tipo-permiso/model/tipoPermiso.model';
+import { MetodosGlobales } from '@shared/metodos-globales';
 import { EstadoPagina } from '@app/shared/enum';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-solicitar-permiso',

@@ -10,4 +10,5 @@ namespace backend_SolicitudPermiso.Models
         public DateTime fechaIngreso {get;set;}
         public int total {get;set;}
     }
+
 }

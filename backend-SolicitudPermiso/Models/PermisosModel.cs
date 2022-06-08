@@ -22,4 +22,20 @@ namespace backend_SolicitudPermiso.Models
         public DateTime fechaHoraFinPermiso {get;set;}
         public int total {get;set;}
     }
+
+    public class ListadoPermisoEmpleadoModel
+    {
+        public string nombreEmpleado {get;set;}
+        public string apellidosEmpleado {get;set;}
+        public int cantPermiso {get;set;}
+        public int total {get;set;}
+    }
+
+    public class ListadoPermisoTipoPermisoModel
+    {
+        public string nombreEmpleado {get;set;}
+        public string apellidosEmpleado {get;set;}
+        public string tipoPermiso {get;set;}
+        public int total {get;set;}
+    }
 }

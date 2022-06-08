@@ -130,6 +130,64 @@ namespace backend_SolicitudPermiso.Data
                 throw ex;
             }
         }
+
+        public IEnumerable<ListadoPermisoEmpleadoModel> Listado_EmpleadoCantidadPermiso(int idEmpleado, DateTime fechaInicial, DateTime fechaFinal)
+        {
+            try
+            {
+                IEnumerable<ListadoPermisoEmpleadoModel> arrayDatos = new ListadoPermisoEmpleadoModel[] { };
+                string nombreFuncion = "sp_listadoEmpleadoCantidadPermiso";
+
+                using (IDbConnection cnx =  _c_conexion.conexionSQL)
+                {
+                    arrayDatos = cnx.Query<ListadoPermisoEmpleadoModel>(
+                        sql: nombreFuncion,
+                        commandType: CommandType.StoredProcedure,
+                        param: new {
+                            idEmpleado=idEmpleado,
+                            fechaInicio=fechaInicial,
+                            fechaFin=fechaFinal
+                        }                  
+                    ).AsList();
+                    cnx.Close();
+                }
+
+                return arrayDatos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public IEnumerable<ListadoPermisoTipoPermisoModel> Listado_EmpleadoTipoPermiso(int idEmpleado, DateTime fechaInicial, DateTime fechaFinal)
+        {
+            try
+            {
+                IEnumerable<ListadoPermisoTipoPermisoModel> arrayDatos = new ListadoPermisoTipoPermisoModel[] { };
+                string nombreFuncion = "sp_Listado_EmpleadoTipoPermiso";
+
+                using (IDbConnection cnx =  _c_conexion.conexionSQL)
+                {
+                    arrayDatos = cnx.Query<ListadoPermisoTipoPermisoModel>(
+                        sql: nombreFuncion,
+                        commandType: CommandType.StoredProcedure,
+                        param: new {
+                            idEmpleado=idEmpleado,
+                            fechaInicio=fechaInicial,
+                            fechaFin=fechaFinal
+                        }                  
+                    ).AsList();
+                    cnx.Close();
+                }
+
+                return arrayDatos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
 

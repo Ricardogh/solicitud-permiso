@@ -127,5 +127,83 @@ namespace backend_SolicitudPermiso.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("Listado_EmpleadoCantidadPermiso")]
+        public ActionResult<IEnumerable<ListadoPermisoEmpleadoModel>> Listado_EmpleadoCantidadPermiso(int idEmpleado, DateTime fechaInicial, DateTime fechaFinal)
+        {
+            IEnumerable<ListadoPermisoEmpleadoModel> _arrayLista = new ListadoPermisoEmpleadoModel[] { };
+            permisos _permisos = new permisos();
+            object respuesta = new object();
+            int elementosTotales = 0;
+            try
+            {
+                using (TransactionScope transaction = new TransactionScope())
+                {
+                    _arrayLista = _permisos.Listado_EmpleadoCantidadPermiso(idEmpleado, fechaInicial, fechaFinal);
+                    transaction.Complete();
+                }
+                if (_arrayLista.Count() > 0)
+                {
+                    elementosTotales = _arrayLista.ElementAt(0).total;
+                }
+                respuesta = new
+                {
+                    status = "success",
+                    response = _arrayLista,
+                    total = elementosTotales
+                };
+                return new OkObjectResult(respuesta);
+            }
+            catch (Exception ex)
+            {
+                respuesta = new
+                {
+                    status = "error",
+                    response = ex.Message
+                };
+
+                return new OkObjectResult(respuesta);
+            }
+        }
+
+        [HttpGet]
+        [Route("Listado_EmpleadoTipoPermiso")]
+        public ActionResult<IEnumerable<ListadoPermisoTipoPermisoModel>> Listado_EmpleadoTipoPermiso(int idEmpleado, DateTime fechaInicial, DateTime fechaFinal)
+        {
+            IEnumerable<ListadoPermisoTipoPermisoModel> _arrayLista = new ListadoPermisoTipoPermisoModel[] { };
+            permisos _permisos = new permisos();
+            object respuesta = new object();
+            int elementosTotales = 0;
+            try
+            {
+                using (TransactionScope transaction = new TransactionScope())
+                {
+                    _arrayLista = _permisos.Listado_EmpleadoTipoPermiso(idEmpleado, fechaInicial, fechaFinal);
+                    transaction.Complete();
+                }
+                if (_arrayLista.Count() > 0)
+                {
+                    elementosTotales = _arrayLista.ElementAt(0).total;
+                }
+                respuesta = new
+                {
+                    status = "success",
+                    response = _arrayLista,
+                    total = elementosTotales
+                };
+                return new OkObjectResult(respuesta);
+            }
+            catch (Exception ex)
+            {
+                respuesta = new
+                {
+                    status = "error",
+                    response = ex.Message
+                };
+
+                return new OkObjectResult(respuesta);
+            }
+        }
+
     }
 }
