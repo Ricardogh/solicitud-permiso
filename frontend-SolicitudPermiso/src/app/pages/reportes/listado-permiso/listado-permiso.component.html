@@ -83,7 +83,82 @@
             </ngx-datatable>
           </ng-template>
     </mat-tab>
-    <!-- <mat-tab label="Second"> Content 2 </mat-tab>
-    <mat-tab label="Third"> Content 3 </mat-tab> -->
+    <mat-tab label="Listado de empleado-tipo de permiso">
+        <form class="mt-4">
+            <div class="form-row col-sm-12">
+                <mat-form-field appearance="legacy" class="form-group col-sm-5 p-3">
+                    <mat-label>Empleado</mat-label>
+                    <mtx-select [items]="dataEmpleado" [(ngModel)]="idEmpleadoTipoPermiso" [ngModelOptions]="{standalone: true}" (change)="seletedChangeTipoPermiso($event)" required bindLabel="nombreEmpleado" bindValue="id">
+                    </mtx-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="legacy" class="form-group col-sm-3 p-3">
+                    <mat-label>Fecha inicial</mat-label>
+                    <input [mtxDatetimepicker]="fechaInicialTipoPermiso" (dateChange)="dateChangeHandlerTipoPermiso($event.value, 'fechaInicial')" matInput readonly required (focus)="fechaInicialTipoPermiso.open()">
+                    <mat-icon matSuffix style="cursor: pointer;" matTooltip="Fecha inicial">calendar_month_outlined</mat-icon>
+                    <mtx-datetimepicker #fechaInicialTipoPermiso type="datetime" mode="auto" startView="month"></mtx-datetimepicker>
+                </mat-form-field>
+
+                <mat-form-field appearance="legacy" class="form-group col-sm-3 p-3">
+                    <mat-label>Fecha final</mat-label>
+                    <input [mtxDatetimepicker]="fechaFinalTipoPermiso" (dateChange)="dateChangeHandlerTipoPermiso($event.value, 'fechaFinal')" matInput readonly required (focus)="fechaFinalTipoPermiso.open()">
+                    <mat-icon matSuffix style="cursor: pointer;" matTooltip="Fecha final">calendar_month_outlined</mat-icon>
+                    <mtx-datetimepicker #fechaFinalTipoPermiso type="datetime" mode="auto" startView="month"></mtx-datetimepicker>
+                </mat-form-field>
+              
+              
+                <button mat-raised-button color="primary"
+                    class="form-group col-md-1"
+                    (click)="buscarPaginadoTipoPermiso({ offset: 0 })" 
+                >Buscar</button>
+            </div>
+        </form>
+        <div
+            *ngIf="arrayTipoPermiso.length == 0 && !banderaCargando; else showTipoPermiso"
+            class="card mb-3"
+          >
+            <div class="card-body text-center p-2">
+                <i class="fa fa-inbox fa-2x"></i>
+              <h5 class="card-title"> No se encontró ningún resultado</h5>
+            </div>
+          </div>
+    
+          <ng-template #showTipoPermiso>
+            <ngx-datatable
+              class="material"
+              [rows]="arrayTipoPermiso"
+              [headerHeight]="40"
+              [columnMode]="'force'" 
+              [footerHeight]="50"
+              [rowHeight]="'auto'"
+              [loadingIndicator]="this.banderaCargando"
+              [externalPaging]="true"
+              [count]="paginadoTipoPermiso.totalElementos"
+              [limit]="paginadoTipoPermiso.cantidadMostrar"
+              [offset]="paginadoTipoPermiso.numeroPaginaActual"
+              (page)="buscarPaginadoTipoPermiso($event)"
+              [scrollbarH]="true"
+            >
+              <ngx-datatable-column name="NOMBRE" prop="nombreEmpleado"  [width]="100">
+                <ng-template ngx-datatable-cell-template let-value="value">
+                  {{ value }}
+                </ng-template>
+              </ngx-datatable-column>
+    
+              <ngx-datatable-column name="APELLIDOS" prop="apellidosEmpleado"  [width]="200">
+                <ng-template ngx-datatable-cell-template let-value="value">
+                  {{ value }}
+                </ng-template>
+              </ngx-datatable-column>
+    
+              <ngx-datatable-column name="TIPO PERMISO" prop="tipoPermiso" [width]="100">
+                <ng-template ngx-datatable-cell-template let-value="value">
+                  {{ value }}
+                </ng-template>
+              </ngx-datatable-column>
+    
+            </ngx-datatable>
+          </ng-template>
+    </mat-tab>
 </mat-tab-group>
 </app-contenedor>

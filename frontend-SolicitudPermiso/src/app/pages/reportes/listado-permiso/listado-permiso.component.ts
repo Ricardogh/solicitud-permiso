@@ -4,7 +4,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { PermisosService } from '@pages/permisos/service/permiso.service';
 import { Paginado } from '@core/model/paginado.model';
 import { EmpleadoModel } from '@pages/gestionar/empleado/model/empleado.model';
-import { ListadoPermisoEmpleadoModel } from '@pages/permisos/model/permisos.model';
+import { ListadoPermisoEmpleadoModel, ListadoPermisoTipoPermisoModel } from '@pages/permisos/model/permisos.model';
 import { EstadoPagina } from '@app/shared/enum';
 import { EmpleadoService } from '@app/pages/gestionar/empleado/service/empleado.service';
 import * as moment from 'moment';
@@ -17,19 +17,22 @@ import { MetodosGlobales } from '@app/shared/metodos-globales';
 })
 export class ListadoPermisoComponent implements OnInit, OnDestroy {
   paginado = new Paginado();
+  paginadoTipoPermiso = new Paginado();
   EstadoPagina = EstadoPagina;
   banderaEstado =  EstadoPagina.Cargando;
   loadingPantalla: boolean = false;
   banderaCargando = false;
   arrayCantPermiso: Array<ListadoPermisoEmpleadoModel> = [];
+  arrayTipoPermiso: Array<ListadoPermisoTipoPermisoModel> = [];
   dataEmpleado: Array<EmpleadoModel> = [];
-  busqueda = {
-    valor: '',
-    parametro: 'e.nombreEmpleado'
-  };
+  
   fechaInicial!: Date;
   fechaFinal!: Date;
   idEmpleado: number | null = 0;
+
+  fechaInicialTipoPermiso!: Date;
+  fechaFinalTipoPermiso!: Date;
+  idEmpleadoTipoPermiso: number | null = 0;
   private unsubscribe$: Subject<void> = new Subject();
 
   constructor(
@@ -92,6 +95,33 @@ export class ListadoPermisoComponent implements OnInit, OnDestroy {
     });
   }
 
+  buscarPaginadoTipoPermiso(numeroPagina: any) {
+    if (!this.validarTipoPermiso()){
+      return;
+    }
+    this.banderaCargando = true;
+    this.paginadoTipoPermiso.numeroPaginaActual = numeroPagina.offset;
+    this.permisosService.Listado_EmpleadoTipoPermiso(
+      this.idEmpleadoTipoPermiso!,
+      moment(this.fechaInicialTipoPermiso).format('YYYY-MM-DD HH:mm'),
+      moment(this.fechaFinalTipoPermiso).format('YYYY-MM-DD HH:mm')
+    ).pipe(takeUntil(this.unsubscribe$)).subscribe({
+      next: data => {
+        this.loadingPantalla = false;
+        this.paginadoTipoPermiso.totalElementos = Number(data.total);
+        this.arrayTipoPermiso = data.response as ListadoPermisoTipoPermisoModel[];
+        console.log(this.arrayTipoPermiso);
+        this.banderaCargando = false;
+        this.banderaEstado = EstadoPagina.Ok;
+      },
+      error: error => {
+        this.banderaCargando = false;
+        this.loadingPantalla = false;
+        this.banderaEstado = EstadoPagina.Error;
+      }
+    });
+  }
+
   numeroRegistrosMostrados(valor: any) {
     this.paginado.cantidadMostrar = valor.srcElement.value;
     this.buscarPaginado({ offset: this.paginado.numeroPaginaActual });
@@ -115,6 +145,24 @@ export class ListadoPermisoComponent implements OnInit, OnDestroy {
     return true;
   }
 
+  validarTipoPermiso(): Boolean {
+    if (this.idEmpleadoTipoPermiso == null) {
+      this.metodosGlobales.MensajePersonalizado('Seleccione a dato de la lista de empleado');
+      return false;
+    }
+
+    if (this.fechaInicialTipoPermiso == null) {
+      this.metodosGlobales.MensajePersonalizado('Elija la fecha inicial antes de continuar');
+      return false;
+    }
+
+    if (this.fechaFinalTipoPermiso == null) {
+      this.metodosGlobales.MensajePersonalizado('Elija la fecha final antes de continuar');
+      return false;
+    }
+    return true;
+  }
+
   dateChangeHandler(date: moment.Moment, control: string): void {
     if (control=='fechaInicial') {
       this.fechaInicial = date.toDate();
@@ -128,6 +176,23 @@ export class ListadoPermisoComponent implements OnInit, OnDestroy {
       this.idEmpleado = obj.id;
     } else {
       this.idEmpleado = null;
+    }
+
+  }
+
+  dateChangeHandlerTipoPermiso(date: moment.Moment, control: string): void {
+    if (control=='fechaInicial') {
+      this.fechaInicialTipoPermiso = date.toDate();
+    } else {
+      this.fechaFinalTipoPermiso = date.toDate();      
+    }
+  }
+
+  seletedChangeTipoPermiso(obj: EmpleadoModel): void {
+    if (obj) {
+      this.idEmpleadoTipoPermiso = obj.id;
+    } else {
+      this.idEmpleadoTipoPermiso = null;
     }
 
   }

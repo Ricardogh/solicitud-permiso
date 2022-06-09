@@ -40,4 +40,11 @@ export class PermisosService {
     return this.apiService.get(`${this.urlPath}/Listado_EmpleadoCantidadPermiso?${this.parametros}`)
   .pipe(map(data => data));
   }
+
+  Listado_EmpleadoTipoPermiso(idEmpleado: number, fechaInicial: string, fechaFinal: string) {
+    this.parametros = `idEmpleado=${idEmpleado}&fechaInicial=${fechaInicial}&fechaFinal=${fechaFinal}`;
+
+    return this.apiService.get(`${this.urlPath}/Listado_EmpleadoTipoPermiso?${this.parametros}`)
+  .pipe(map(data => data));
+  }
 }
